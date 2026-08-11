@@ -1,0 +1,13 @@
+version: "0.2"
+language: en-GB
+ignorePaths: []
+dictionaryDefinitions: []
+dictionaries: []
+words:
+  - Lifecycles
+  - pasteable
+  - SDLC
+  - Sephnescence
+  - utdir
+ignoreWords: []
+import: []
