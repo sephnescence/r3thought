@@ -73,7 +73,7 @@ Two parts are needed
 
 First, the workflow. Per [Git Repositories Appendix A](GitRepositories/GitRepositories-AppendixA.md), the ruleset's `context` must match the Actions **job name** (`test` below, since the job sets no `name:`). The check has to have run at least once before GitHub recognises it, but the ruleset can be declared up front regardless
 
-Note: Rulesets require a paid GitHub Pro plan, or for the repo to be listed as public with `gh repo edit Sephnescence/r3thought --visibility public`
+Note: Rulesets require a paid GitHub Pro plan, or for the repo to be listed as public with `gh repo edit Sephnescence/r3thought --visibility public`. You should be prompted to run it again with `--accept-visibility-change-consequences`
 
 `code .github/workflows/ci.yml`:
 
