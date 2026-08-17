@@ -6,7 +6,7 @@ Moving away from my original naming of Suite, Storey, and Space, I'll give it th
 
 Idea for searching with a command palette: allow for `r1:<Realm Name>` as an alias for `realm:<Realm Name>`. Same for `r2`, `r3`, etc.
 
-This will be hosted on Vercel, with Redis on Upstash, Postgres TBD
+This will be hosted on Vercel, with Redis on Upstash, Postgres on Neon
 
 It will use Clerk for authentication, and basically be set in beta mode forever with self-signups turned off
 
