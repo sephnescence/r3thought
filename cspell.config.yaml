@@ -4,11 +4,15 @@ ignorePaths: []
 dictionaryDefinitions: []
 dictionaries: []
 words:
+  - Flightcontrol
+  - Hostinger
   - Lifecycles
   - pasteable
+  - Replit
   - SDLC
   - Sephnescence
   - signups
+  - Turbopack
   - utdir
 ignoreWords: []
 import: []
