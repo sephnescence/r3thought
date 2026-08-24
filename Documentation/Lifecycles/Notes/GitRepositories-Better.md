@@ -8,7 +8,7 @@ This tier hasn't been run yet. Once it's executed, its contents graduate into a 
 
 Good protects the *contents* of `main` (PR + green CI). Better protects the refs themselves and the wider repo surface: branch/tag deletion and force pushes blocked, merged branches cleaned up automatically, squash commits titled from the PR, security scanning on, and workflow tokens read-only by default
 
-Everything below uses the same env vars:
+Everything below uses the same environment variables:
 
 ```bash
 export OWNER=Sephnescence
