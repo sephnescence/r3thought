@@ -1,18 +1,26 @@
 version: "0.2"
 language: en-GB
-ignorePaths: []
+useGitignore: true
+ignorePaths:
+  - "**/node_modules"
+  - "**/pnpm-lock.yaml"
+  - "**/*.svg"
 dictionaryDefinitions: []
 dictionaries: []
 words:
   - Flightcontrol
+  - geist
   - Hostinger
   - Lifecycles
+  - logomark
   - pasteable
   - Replit
   - SDLC
   - Sephnescence
   - signups
   - Turbopack
+  - unpushed
+  - unrs
   - utdir
 ignoreWords: []
 import: []
