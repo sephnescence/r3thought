@@ -1,8 +1,18 @@
-# Git Repository Lifecycles (Hosted on Vercel)
+# NextJS - Bare Minimum (Hosted on Vercel)
+
+Previous tier: [Git Repositories - Good](0002-GitRepositories-Good.md) | Next tier: [NextJS - Good](../Notes/NextJS-Good.md) (notes)
 
 I have hosted in ECS before but it's not worth it
 
-## Initialising a new NextJS project
+## What this tier gets you
+
+A repo set up per the Git Repositories tiers now gets an actual app in it - a bootstrapped NextJS project with TypeScript, Tailwind, ESLint, App Router, and a `src/` directory. No opinionated lint/format config yet - that's the [Good](../Notes/NextJS-Good.md) tier's job
+
+```bash
+pnpm create next-app@latest r3thought-app --ts --app --tailwind --src-dir --import-alias "@/*" --eslint --no-react-compiler --agents-md
+```
+
+## Reference - NextJS' documentation
 
 [NextJS' Docs](https://nextjs.org/docs) are very good, and include
 
@@ -64,13 +74,3 @@ I have hosted in ECS before but it's not worth it
   - [Instant Navigation](https://nextjs.org/docs/app/guides/instant-navigation)
 - [Templates](https://vercel.com/templates/next.js) like
   - [SaaS Starter](https://vercel.com/templates/next.js/next-js-saas-starter)
-
-## Bare-minimum
-
-```bash
-pnpm create next-app@latest r3thought-app --ts --app --tailwind --src-dir --import-alias "@/*" --eslint --no-react-compiler --agents-md
-```
-
-## Good / Better / Best
-
-Should include how I'd like to configure eslint, typescript-eslint, prettier, etc. I'll start with "Bare-minimum" myself and go from there
