@@ -12,9 +12,10 @@ Lifecycle Stages are living documents that outline how I would take those steps 
 
 Lifecycle Stages begin in the Notes directory, collecting thoughts and example documentation, which are then committed first before executing the plan. A subsequent pull request will Graduate the Lifecycle
 
-Graduated Lifecycle Stages follow this naming convention: `000x-<Topic>-<Tier>.md`, e.g. `0001-GitRepositories-Bare-Minimum.md`
+Graduated Lifecycle Stages follow this naming convention: `000x-000y-<Topic>-<Tier>.md`, e.g. `0001-0001-GitRepositories-Bare-Minimum.md`
 
-- The `000x-` prefix is the order the steps either were actually executed, or how I'd execute them again in the future. These are living documents _actually executed_, so listing the folder by filename reads as the lifecycle itself. A step only gets a number once it's been run for real
+- The `000x-` prefix is the order of how I'd execute Stages again in the future. These are living documents _actually executed_, so listing the folder by filename reads as the lifecycle itself. A Stage only Graduates to include a number once it's been run for real
+- The `000x-` prefix is the order the steps either were actually executed, overall, amongst all other Lifecycles
 - `<Topic>` is what's being set up (GitRepositories, NextJS, ...). Topics interleave within a folder - the numbering tracks execution order, not topic
 - `<Tier>` is one of **Bare Minimum / Good / Better / Best** - each tier is a level up from the previous one for that topic. Every tier doc opens by explaining what that level up is, and carries all of its examples inline rather than referencing appendices
 

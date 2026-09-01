@@ -5,12 +5,19 @@ ignorePaths:
   - "**/node_modules"
   - "**/pnpm-lock.yaml"
   - "**/*.svg"
+  - "**/docker/**/dump/*.sql"
 dictionaryDefinitions: []
 dictionaries: []
 words:
+  - dbname
+  - diffable
+  - Dockerised
   - Flightcontrol
   - geist
+  - healthcheck
   - Hostinger
+  - isready
+  - Laravel
   - Lifecycles
   - logomark
   - pasteable
