@@ -1,0 +1,25 @@
+# Local development/testing database. Pinned to an exact Postgres version so the
+# committed schema dump diffs byte-for-byte anywhere it is regenerated (pg_dump
+# writes the server version into its header). Upgrading Postgres means creating a
+# new docker/postgres-XX/ directory alongside this one, not editing this file.
+name: r3thought-postgres-17
+
+services:
+  postgres:
+    image: postgres:17.11
+    environment:
+      POSTGRES_USER: r3thought
+      POSTGRES_PASSWORD: r3thought
+      POSTGRES_DB: r3thought
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready --username r3thought --dbname r3thought']
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+volumes:
+  postgres-data:
