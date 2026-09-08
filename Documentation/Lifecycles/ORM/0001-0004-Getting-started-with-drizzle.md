@@ -2,7 +2,7 @@
 
 Next: [Dockerised Postgres for local testing](0002-0005-Dockerised-Postgres-for-local-testing.md)
 
-The bar for bare minimum is bare minimum is admittedly high...
+The bar for bare minimum is admittedly high...
 
 Integration tests are to be executed against a Docker container running an image that reflects the production database. The database version in testing is flexible, but should be created as an entirely new docker file so that we can detect issues in code before a real upgrade is made
 
@@ -46,18 +46,25 @@ export type TestingModel = typeof testingModel.$inferSelect
 
 `pgSchema('testing')` is what puts the table in a named Postgres schema rather than `public` - this is the building block for the schema-per-tenant approach described above
 
+`src/db/url.ts` is the single place the connection string is resolved, so the app client and drizzle-kit can't drift apart:
+
+```ts
+export const databaseUrl =
+  process.env.DATABASE_URL ??
+  'postgres://r3thought:r3thought@localhost:5432/r3thought'
+```
+
+The fallback matches the Docker container from the next Stage, so a fresh clone works with zero env configuration. `DATABASE_URL` overrides it in deployed environments
+
 `src/db/index.ts` exposes the client the app will query through:
 
 ```ts
 import { drizzle } from 'drizzle-orm/node-postgres'
 
-export const db = drizzle(
-  process.env.DATABASE_URL ??
-    'postgres://r3thought:r3thought@localhost:5432/r3thought',
-)
-```
+import { databaseUrl } from './url'
 
-The fallback connection string matches the Docker container from the next Stage, so a fresh clone works with zero env configuration. `DATABASE_URL` overrides it in deployed environments
+export const db = drizzle(databaseUrl)
+```
 
 ### Configure drizzle-kit
 
@@ -66,17 +73,17 @@ The fallback connection string matches the Docker container from the next Stage,
 ```ts
 import { defineConfig } from 'drizzle-kit'
 
+import { databaseUrl } from './src/db/url'
+
 export default defineConfig({
   dialect: 'postgresql',
   schema: './src/db/schema.ts',
   out: './drizzle',
-  dbCredentials: {
-    url:
-      process.env.DATABASE_URL ??
-      'postgres://r3thought:r3thought@localhost:5432/r3thought',
-  },
+  dbCredentials: { url: databaseUrl },
 })
 ```
+
+It imports `url.ts` directly rather than `index.ts`, so loading the config doesn't instantiate the app's database client
 
 ### Generate the migration
 

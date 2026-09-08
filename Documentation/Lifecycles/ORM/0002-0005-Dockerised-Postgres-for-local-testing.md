@@ -38,22 +38,25 @@ volumes:
 
 Decisions baked into that file:
 
-- **The version lives in the directory name.** Upgrading Postgres means creating a new `docker/postgres-18/` directory beside this one and pointing the scripts at it, never editing this file in place - so upgrade problems surface as a reviewable diff (new compose file + regenerated dump) before any real database is touched
+- **The version lives in the directory name.** Upgrading Postgres means creating a new `docker/postgres-18/` directory beside this one and pointing the `db:compose` script (and the `db:dump` output path) at it, never editing this file in place - so upgrade problems surface as a reviewable diff (new compose file + regenerated dump) before any real database is touched
 - **The image is pinned to an exact version (`17.11`), not `17`.** `pg_dump` writes the server version into the dump's header comments, so a floating tag would make the committed dump differ between machines that pulled the image at different times, and the CI diff assertion would rot. Production is intended for Neon, which runs Postgres 17, hence 17 here
 - **The healthcheck** is what makes `docker compose up --wait` block until the database is actually accepting connections, so the migrate step can be chained straight after it
-- **Credentials are throwaway** (`r3thought`/`r3thought`) and only ever bind to localhost. They intentionally match the fallback connection string in `drizzle.config.ts` and `src/db/index.ts`, so a fresh clone needs no env setup
+- **Credentials are throwaway** (`r3thought`/`r3thought`) and only ever bind to localhost. They intentionally match the fallback connection string in `src/db/url.ts`, so a fresh clone needs no env setup
 
 ## The scripts
 
 Added to `r3thought-app/package.json`:
 
 ```json
-"db:up": "docker compose -f docker/postgres-17/compose.yaml up --detach --wait",
-"db:down": "docker compose -f docker/postgres-17/compose.yaml down",
+"db:compose": "docker compose -f docker/postgres-17/compose.yaml",
+"db:up": "pnpm --silent db:compose up --detach --wait",
+"db:down": "pnpm --silent db:compose down",
 "db:generate": "drizzle-kit generate",
 "db:migrate": "drizzle-kit migrate",
-"db:dump": "docker compose -f docker/postgres-17/compose.yaml exec postgres pg_dump --username r3thought --schema-only --no-owner --no-privileges --restrict-key=r3thought r3thought > docker/postgres-17/dump/schema.sql"
+"db:dump": "pnpm --silent db:compose exec postgres pg_dump --username r3thought --schema-only --no-owner --no-privileges --restrict-key=r3thought r3thought > docker/postgres-17/dump/schema.sql"
 ```
+
+`db:compose` is the one place the compose file path lives - pnpm forwards any trailing arguments to the script, so the others delegate to it. `--silent` matters: without it pnpm echoes the delegated command to stdout, and for `db:dump` that banner would end up inside the redirected dump file
 
 The full loop after changing `src/db/schema.ts`:
 
@@ -64,7 +67,7 @@ pnpm db:migrate  # apply pending migrations to the container
 pnpm db:dump     # refresh the committed schema dump
 ```
 
-All four artefacts get committed together: the schema change, the generated migration, and the refreshed dump
+Everything gets committed together: the schema change, the generated migration (plus the `drizzle/meta/` snapshot and journal it updates), and the refreshed dump
 
 ## The committed dump
 
